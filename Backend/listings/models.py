@@ -5,6 +5,15 @@ class User(AbstractUser):
     pass
 
 
+class Amenity(models.Model):
+    name = models.CharField(max_length=100, unique=True, help_text="Name of the amenity (e.g., Parking, Swimming Pool)")
+    description = models.TextField(null=True, blank=True, help_text="Optional description of the amenity")
+    icon = models.ImageField(upload_to='amenity_icons/', null=True, blank=True, help_text="Optional icon/image for the amenity")
+
+    def __str__(self):
+        return self.name
+
+
 class Property(models.Model):
     PROPERTIES_TYPES = [
         ("sale", "For Sale"),
@@ -26,6 +35,7 @@ class Property(models.Model):
     # additional details
     bedroom = models.IntegerField(default=0)
     bathroom = models.IntegerField(default=0)
+    amenities = models.ManyToManyField(Amenity, blank=True, null=True, related_name="properties")
     area_sqft = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_featured = models.BooleanField(default=False)
 
@@ -54,3 +64,33 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.property.title}"
+
+
+
+class Inquiry(models.Model):
+    # Linking to the property and the user making the inquiry
+    property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='inquiries')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='inquiries')  # The user making the inquiry
+
+    # Inquiry details
+    message = models.TextField()
+    contact_email = models.EmailField()
+    contact_phone = models.CharField(max_length=15, null=True, blank=True)
+
+    # Metadata
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Inquiry status
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('answered', 'Answered'),
+        ('closed', 'Closed'),
+    ]
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
+
+    class Meta:
+        verbose_name_plural = "Inquiries"
+
+    def __str__(self):
+        return f"Inquiry by {self.user.username} on {self.property.title}"
