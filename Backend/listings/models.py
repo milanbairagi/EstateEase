@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
-    pass
+    phone_number = models.CharField(max_length=15, unique=True, null=True)
 
 
 class Amenity(models.Model):
@@ -56,7 +56,6 @@ class Property(models.Model):
         return self.title
 
 
-
 class PropertyImage(models.Model):
     property = models.ForeignKey("Property", on_delete=models.CASCADE, related_name="property_images")
     image = models.ImageField(upload_to="property_images/")
@@ -64,7 +63,6 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.property.title}"
-
 
 
 class Inquiry(models.Model):
