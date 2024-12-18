@@ -35,7 +35,7 @@ class Property(models.Model):
     # additional details
     bedroom = models.IntegerField(default=0)
     bathroom = models.IntegerField(default=0)
-    amenities = models.ManyToManyField(Amenity, blank=True, null=True, related_name="properties")
+    amenities = models.ManyToManyField(Amenity, blank=True, related_name="properties")
     area_sqft = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     is_featured = models.BooleanField(default=False)
 
