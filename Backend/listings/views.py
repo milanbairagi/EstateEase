@@ -5,12 +5,13 @@ from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticate
 from .models import User, Property
 from .serializers import UserSerializer, PropertySerializer
 from .permissions import IsOwnerOrReadOnly
-
+from .filters import PropertyFilter
 
 class PropertyListCreate(generics.ListCreateAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
     permission_classes = [AllowAny]
+    filterset_class = PropertyFilter
 
     def create(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
