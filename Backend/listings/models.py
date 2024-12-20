@@ -4,6 +4,10 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     phone_number = models.CharField(max_length=15, unique=True, null=True)
 
+    def save(self, *args, **kwargs):
+        self.set_password(self.password)
+        super().save(*args, **kwargs)
+
 
 class Amenity(models.Model):
     name = models.CharField(max_length=100, unique=True, help_text="Name of the amenity (e.g., Parking, Swimming Pool)")

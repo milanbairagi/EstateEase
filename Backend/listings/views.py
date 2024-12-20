@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
-from .models import User, Property
-from .serializers import UserSerializer, PropertySerializer
+from .models import User, Property, Inquiry
+from .serializers import UserSerializer, PropertySerializer, InquirySerializer
 from .permissions import IsOwnerOrReadOnly
 from .filters import PropertyFilter
 
@@ -35,3 +35,25 @@ class UserCreate(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
 
+
+class InquiryListCreate(generics.ListCreateAPIView):
+    serializer_class = InquirySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        property_id = self.kwargs.get("pk")
+        property = get_object_or_404(Property, pk=property_id)
+        if user.is_authenticated:
+            return Inquiry.objects.filter(property__owner=user)
+        return Inquiry.objects.none()
+    
+    def create(self, request, *args, **kwargs):
+        property_id = kwargs.get(self.lookup_field)
+        new_data = {**(request.data.dict()), "property":property_id, "user":request.user.id}
+
+        serializer = self.get_serializer(data=new_data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

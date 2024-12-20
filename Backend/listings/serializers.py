@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import User, Amenity, Property, PropertyImage, Inquiry
+from django.utils import timezone
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -21,3 +22,14 @@ class PropertySerializer(serializers.ModelSerializer):
                 "read_only": True
             },
         }
+
+    def update(self, instance, validated_data):
+        instance.updated_at = timezone.now()
+        return super().update(instance, validated_data)
+
+
+class InquirySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Inquiry
+        fields = "__all__"
+        read_only_fields = ["id", "created_at", "updated_at", "status"]
