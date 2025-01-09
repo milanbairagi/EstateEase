@@ -36,6 +36,17 @@ class UserCreate(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 
+class UserRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_object(self):
+        if not self.request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return self.request.user
+
+
 class InquiryListCreate(generics.ListCreateAPIView):
     serializer_class = InquirySerializer
     permission_classes = [IsAuthenticated]
