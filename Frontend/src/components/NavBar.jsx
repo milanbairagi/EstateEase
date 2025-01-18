@@ -14,29 +14,29 @@ const NavBar = () => {
 		navigate("/");
 	}
 	return (
-		<nav>
-			<div className="nav-logo">LOGO</div>
-			<ul className="nav-links-container">
-				<li className="nav-link">
+		<nav className="flex justify-between align-middle border-b-2">
+			<div>LOGO</div>
+			<ul className="flex justify-center align-middle gap-4">
+				<li className="hover:underline">
                     <Link to="/">Home</Link>
                 </li>
-				<li className="nav-link">
+				<li className="hover:underline">
                     <Link to="#">Products</Link>
                 </li>
-				<li className="nav-link">
+				<li className="hover:underline">
                     <Link to="#">About</Link>
                 </li>
 				{(user.length === 0) ? 
 					<>
-						<li className="nav-link">
+						<li className="hover:underline">
 							<Link to="/login">Login</Link>
 						</li>
-						<li className="nav-link">
+						<li className="hover:underline">
 							<Link to="/register">Register</Link>
 						</li>
 					</> 
 					:
-					<li className="nav-link">
+					<li className="hover:underline">
 						<button onClick={handleLogout}>Logout</button>
 					</li>
 				}

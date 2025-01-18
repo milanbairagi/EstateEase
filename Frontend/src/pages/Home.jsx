@@ -25,7 +25,7 @@ const Home = () => {
 		<>
 			<Hero />
             <h2>Properties List:</h2>
-            <div>
+            <div className="flex gap-x-4">
                 {properties.map((property) => {
                     return <PropertyCard property={property} key={property.id} />;
                 })}
