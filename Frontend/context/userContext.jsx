@@ -24,7 +24,6 @@ export function UserContextProvider({children}) {
             }
         } catch (error) {
             console.log(error);
-            setUser(null);
         }
     }
 

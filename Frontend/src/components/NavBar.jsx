@@ -5,7 +5,6 @@ import { useUser } from "../../context/userContext";
 
 const NavBar = () => {
 	const {user, setUser} = useUser();
-	console.log(user);
 
 	const navigate = useNavigate();
 
@@ -43,7 +42,7 @@ const NavBar = () => {
 				}
 			</ul>
 			<div>
-				{user ? user.username : "Not Signed!"}
+				{!(user.length === 0) ? user.username : "Not Signed!"}
 			</div>
 		</nav>
 	);
