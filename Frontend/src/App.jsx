@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { UserContextProvider } from "../context/userContext";
+import { UserContextProvider } from "./context/userContext";
 
 import NavBar from "./components/NavBar";
 

@@ -1,12 +1,12 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../src/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import { jwtDecode } from "jwt-decode";
-import api from "../src/api";
+import api from "../api";
 
 const UserContext = createContext(null);
 
 export function UserContextProvider({children}) {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         getUser();
