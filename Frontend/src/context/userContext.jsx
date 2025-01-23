@@ -43,7 +43,11 @@ export function UserContextProvider({children}) {
             }
 
             const res = await api.get("api/user/");
-            setUser(res.data);
+            if (res.status === 200) {
+                setUser(res.data);
+            } else {
+                console.log("Couldn't get user");
+            }
         } catch (error) {
             console.log(error);
         }
