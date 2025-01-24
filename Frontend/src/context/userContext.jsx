@@ -1,12 +1,12 @@
 import { createContext, useState, useEffect, useContext } from "react";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../src/constants";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
 import { jwtDecode } from "jwt-decode";
-import api from "../src/api";
+import api from "../api";
 
 const UserContext = createContext(null);
 
 export function UserContextProvider({children}) {
-    const [user, setUser] = useState([]);
+    const [user, setUser] = useState({});
 
     useEffect(() => {
         getUser();
@@ -24,7 +24,6 @@ export function UserContextProvider({children}) {
             }
         } catch (error) {
             console.log(error);
-            setUser(null);
         }
     }
 
@@ -44,7 +43,11 @@ export function UserContextProvider({children}) {
             }
 
             const res = await api.get("api/user/");
-            setUser(res.data);
+            if (res.status === 200) {
+                setUser(res.data);
+            } else {
+                console.log("Couldn't get user");
+            }
         } catch (error) {
             console.log(error);
         }
