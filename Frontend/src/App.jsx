@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import PostProperty from "./pages/PostProperty";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
+				<Route path="/post-property" element={<PostProperty />} />
 			</Routes>
 		</UserContextProvider>
 		</>
