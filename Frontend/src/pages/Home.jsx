@@ -38,20 +38,16 @@ const Home = () => {
 			<Hero />
 			<h2>Featured Properties</h2>
 			<div className="flex gap-x-4">
-				{featuredProperties.map((property) => {
-					return (
-						<PropertyCard property={property} key={property.id} />
-					);
-				})}
+				{featuredProperties.map((property) => (
+					<PropertyCard property={property} key={property.id} />
+				))}
 			</div>
 
 			<h2>Latest Properties:</h2>
 			<div className="flex gap-x-4">
-				{properties.map((property) => {
-					return (
-						<PropertyCard property={property} key={property.id} />
-					);
-				})}
+				{properties.map((property) => (
+					<PropertyCard property={property} key={property.id} />
+				))}
 			</div>
 		</>
 	);
