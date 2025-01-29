@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PostProperty from "./pages/PostProperty";
+import PropertyDetail from "./pages/PropertyDetail";
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
 				<Route path="/post-property" element={<PostProperty />} />
+				<Route path="/property/:id" element={<PropertyDetail />} />
 			</Routes>
 		</UserContextProvider>
 		</>
