@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBath, faBed } from "@fortawesome/free-solid-svg-icons"
 
+import InquiryForm from "../components/InquiryForm";
+
 import api from "../api";
 
 import Page404 from "./Page404";
@@ -76,6 +78,9 @@ const PropertyDetail = () => {
 							</div>
 						</div>
 					</div>
+
+					
+					<InquiryForm propertyId={property.id} />
 				</div>
 			)}
 		</>
