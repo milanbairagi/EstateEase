@@ -36,7 +36,11 @@ const PropertyForm = () => {
 		const formData = new FormData();
 
 		for (const key in property) {
-			formData.append(`${key}`, property[key]);
+			if (property[key] !== null) {
+				formData.append(`${key}`, property[key]);
+				console.log(`${key}`, property[key]);
+			}
+			
 		}
 
 		// Post new properties
