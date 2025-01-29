@@ -61,7 +61,7 @@ class InquiryListCreate(generics.ListCreateAPIView):
     
     def create(self, request, *args, **kwargs):
         property_id = kwargs.get(self.lookup_field)
-        new_data = {**(request.data.dict()), "property":property_id, "user":request.user.id}
+        new_data = {**(request.data), "property":property_id, "user":request.user.id}
 
         serializer = self.get_serializer(data=new_data)
         serializer.is_valid(raise_exception=True)
