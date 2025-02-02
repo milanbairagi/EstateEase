@@ -45,7 +45,7 @@ const NavBar = () => {
 					"Not Signed!"
 				) : (
 					<div className="flex gap-3">
-						{user.username}
+						<Link to="/dashboard"><div className="hover:underline">{user.username}</div></Link>
 						<div className="bg-blue-700 text-white px-3">
 							<Link to="/post-property">Post Property</Link>
 						</div>
