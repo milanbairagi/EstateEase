@@ -68,3 +68,14 @@ class InquiryListCreate(generics.ListCreateAPIView):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class UserInquiryList(generics.ListAPIView):
+    serializer_class = InquirySerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        inquiries = Inquiry.objects.filter(property__owner=user)
+
+        return inquiries
