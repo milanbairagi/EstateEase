@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "username","first_name", "last_name", "email", "phone_number", "password"]
         extra_kwargs = {
             "password": {"write_only": True},
+            "id": {"read_only": True},
         }
 
     def update(self, instance, validated_data):
