@@ -58,7 +58,7 @@ const Dashboard = () => {
 	}, [dashboardNav, userProperties]);
 
 	return (
-		<div>
+		<div className="flex flex-col min-h-screen">
 			<h1 className="text-3xl font-semibold">My Dashboard</h1>
 			<div className="flex space-x-4 border-b">
 				{dashboardNav.map((tab) => (
@@ -73,9 +73,7 @@ const Dashboard = () => {
 					</button>
 				))}
 			</div>
-			<div>
-				<div className="mt-4">{activeContent}</div>
-			</div>
+			<div className="mt-4">{activeContent}</div>
 		</div>
 	);
 };

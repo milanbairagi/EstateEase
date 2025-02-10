@@ -1,17 +1,39 @@
 import { useState } from "react";
 import api from "../api";
 
+const inputStyleClasses =
+	"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline";
+
 const PostProperty = () => {
 	return (
 		<div className="bg-gray-100 min-h-screen">
-			<div className="text-3xl mb-3">Post Property</div>
 			<PropertyForm />
 		</div>
 	);
 };
 
+const InputBlock = (props) => {
+	return (
+		<div className="mb-6">
+			<label
+				className="block text-gray-800 font-bold mb-2"
+				htmlFor={props?.id}
+			>
+				{props.label}
+			</label>
+			<input
+				className={inputStyleClasses}
+				id={props?.id}
+				type={props.type || "text"}
+				placeholder={props?.placeholder}
+				value={props.field}
+				onChange={(e) => props.handleChange(e)}
+			/>
+		</div>
+	);
+};
+
 const PropertyForm = () => {
-	const input_style_classes = "border-2";
 	const [property, setProperty] = useState({
 		title: "",
 		description: "",
@@ -40,300 +62,263 @@ const PropertyForm = () => {
 				formData.append(`${key}`, property[key]);
 				console.log(`${key}`, property[key]);
 			}
-			
 		}
 
 		// Post new properties
-		const res = await api.post("api/properties/", formData)
+		const res = await api.post("api/properties/", formData);
 		console.log(res.data);
-	}
+	};
 
 	return (
-		<form onSubmit={(e) => handleSubmit(e)}>
+		<div className="container mx-auto mt-4 p4-10">
+			<div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-xl">
+				<div className="md:flex">
+					<div className="w-full px-6 py-8 md:p-8">
+						<h2 className="text-2xl font-bold text-gray-800">
+							Post Property
+						</h2>
+						<p className="mt-4 text-gray-600">
+							Please fill out the form below to post your
+							property.
+						</p>
+						<form className="mt-6" onSubmit={(e) => handleSubmit(e)}>
+							{/* ====== Title Start ====== */}
+							<InputBlock
+								id="title"
+								label="Title"
+								value={property.title}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										title: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Title End ====== */}
 
-			{/* Title */}
-			<div>
-				<div>
-					<label htmlFor="title">Title</label>
-				</div>
-				<input
-					type="text"
-					id="title"
-					name="title"
-					className={input_style_classes}
-					value={property.title}
-					onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, title: e.target.value };
-						})
-					}
-				/>
-			</div>
+							{/* ====== Property Type Start ====== */}
+							<div className="mb-6">
+								<label
+									className="block text-gray-800 font-bold mb-2"
+									htmlFor="property-type"
+								>
+									Property Type
+								</label>
+								<select
+									name="property_type"
+									className={inputStyleClasses}
+									id="property-type"
+									value={property.property_type}
+									onChange={(e) =>
+										setProperty((prevState) => ({
+											...prevState,
+											title: e.target.value,
+										}))
+									}
+								>
+									<option value="sale">For Sale</option>
+									<option value="rent">For Rent</option>
+								</select>
+							</div>
+							{/* ====== Property Type End ====== */}
 
-			{/* Description */}
-			<div>
-				<div>
-					<label htmlFor="description">Description</label>
-				</div>
-				<textarea
-					type="text"
-					id="description"
-					name="description"
-					className={input_style_classes}
-					value={property.description}
-					onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, description: e.target.value };
-						})
-					}
-				/>
-			</div>
+							{/* ====== Price Start ====== */}
+							<InputBlock
+								id="price"
+								label="Price"
+								placeholder="20000000"
+								type="number"
+								value={property.price}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										price: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Price End ====== */}
 
-			{/* Property Type */}
-			<div>
-				<div>
-					<label htmlFor="property-type">Property Type</label>
-				</div>
-				<select
-					name="property_type"
-					id="property-type"
-					value={property.property_type}
-					onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, property_type: e.target.value };
-						})
-					}
-				>
-					<option value="sale">For Sale</option>
-					<option value="rent">For Rent</option>
-				</select>
-			</div>
+							{/* ====== Location Start ====== */}
+							<InputBlock
+								id="location"
+								label="Location"
+								placeholder="Manamaiju Pool"
+								value={property.location}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										location: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Location End ====== */}
 
-			{/* Price */}
-			<div>
-				<div>
-					<label htmlFor="price">Price</label>
-				</div>
-				<input
-					type="number"
-					id="price"
-					name="price"
-					className={input_style_classes}
-					value={property.price}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, price: e.target.value };
-						})
-					}
-                    placeholder="Eg. 50000000"
-				/>
-			</div>
+							{/* ====== City Start ====== */}
+							<InputBlock
+								id="city"
+								label="City"
+								placeholder="Kathmandu"
+								value={property.city}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										city: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== city End ====== */}
 
-			{/* Location */}
-			<div>
-				<div>
-					<label htmlFor="location">Location</label>
-				</div>
-				<input
-					type="text"
-					id="location"
-					name="location"
-					className={input_style_classes}
-					value={property.location}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, location: e.target.value };
-						})
-					}
-                    placeholder="Eg. Sorakhutte Chwok"
-				/>
-			</div>
-		
-			{/* City */}
-			<div>
-				<div>
-					<label htmlFor="city">City</label>
-				</div>
-				<input
-					type="text"
-					id="city"
-					name="city"
-					className={input_style_classes}
-					value={property.city}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, city: e.target.value };
-						})
-					}
-                    placeholder="Eg. Kathmandu"
-				/>
-			</div>
+							{/* ====== District Start ====== */}
+							<InputBlock
+								id="district"
+								label="District"
+								placeholder="Kathmandu"
+								value={property.district}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										district: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== District End ====== */}
 
-			{/* District */}
-			<div>
-				<div>
-					<label htmlFor="district">District</label>
-				</div>
-				<input
-					type="text"
-					id="district"
-					name="district"
-					className={input_style_classes}
-					value={property.district}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, district: e.target.value };
-						})
-					}
-                    placeholder="Eg. Bhaktapur"
-				/>
-			</div>
+							{/* ====== Latitude Start ====== */}
+							<InputBlock
+								id="latitude"
+								label="Latitude"
+								placeholder="12.141541"
+								value={property.latitude}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										latitude: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Latitude End ====== */}
 
-			{/* Latitude */}
-			<div>
-				<div>
-					<label htmlFor="latitude">Latitude</label>
-				</div>
-				<input
-					type="number"
-					id="latitude"
-					name="latitude"
-					className={input_style_classes}
-					value={property.latitude}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, latitude: e.target.value };
-						})
-					}
-                    placeholder="Eg. 27.71879"
-				/>
-			</div>
+							{/* ====== Longitude Start ====== */}
+							<InputBlock
+								id="longitude"
+								label="Longitude"
+								placeholder="32.123123"
+								value={property.longitude}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										longitude: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Longitude End ====== */}
 
-			{/* Longitude */}
-			<div>
-				<div>
-					<label htmlFor="longitude">Longitude</label>
-				</div>
-				<input
-					type="number"
-					id="longitude"
-					name="longitude"
-					className={input_style_classes}
-					value={property.longitude}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, longitude: e.target.value };
-						})
-					}
-                    placeholder="Eg. 85.30929"
-				/>
-			</div>
-			
-			{/* Bedroom */}
-			<div>
-				<div>
-					<label htmlFor="bedroom">Bedroom</label>
-				</div>
-				<input
-					type="number"
-					id="bedroom"
-					name="bedroom"
-					className={input_style_classes}
-					value={property.bedroom}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, bedroom: e.target.value };
-						})
-					}
-                    placeholder="Eg. 2"
-				/>
-			</div>
+							{/* ====== Bedroom Start ====== */}
+							<InputBlock
+								id="bedroom"
+								label="Bedroom"
+								placeholder="5"
+								value={property.bedroom}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										bedroom: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Bedroom End ====== */}
 
-			{/* Bathroom */}
-			<div>
-				<div>
-					<label htmlFor="bathroom">Bathroom</label>
-				</div>
-				<input
-					type="number"
-					id="bathroom"
-					name="bathroom"
-					className={input_style_classes}
-					value={property.bathroom}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, bathroom: e.target.value };
-						})
-					}
-                    placeholder="Eg. 2"
-				/>
-			</div>
+							{/* ====== Bathroom Start ====== */}
+							<InputBlock
+								id="bathroom"
+								label="Bathroom"
+								placeholder="6"
+								value={property.bathroom}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										bathroom: e.target.value,
+									}))
+								}
+							/>
+							{/* ====== Bathroom End ====== */}
 
-			{/* Area */}
-			<div>
-				<div>
-					<label htmlFor="area-sqft">Area (sqft)</label>
-				</div>
-				<input
-					type="number"
-					id="area-sqft"
-					name="area_sqft"
-					className={input_style_classes}
-					value={property.area_sqft}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, area_sqft: e.target.value };
-						})
-					}
-                    placeholder="Eg. 20.43"
-				/>
-			</div>
+							{/* ====== Area Start ====== */}
+							<InputBlock
+								id="area"
+								label="Area (sq ft)"
+								placeholder="50.412"
+								value={property.area_sqft}
+								handleChange={(e) =>
+									setProperty((prevState) => ({
+										...prevState,
+										area_sqft: e.target.value,
+									}))
+								}
+								um
+							/>
+							{/* ====== Area End ====== */}
 
-			{/* Image */}
-			<div>
-				<div>
-					<label htmlFor="image">Image</label>
-				</div>
-				<input
-					type="file"
-					id="image"
-					name="image"
-					className={input_style_classes}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, image: e.target.files[0] };
-						})
-					}
-				/>
-			</div>
+							{/* ====== Image Start ====== */}
+							<div className="mb-6">
+								<label className="block text-gray-800 font-bold mb-2">
+									Image
+								</label>
+								<input
+									type="file"
+									id="image"
+									name="image"
+									className={`${inputStyleClasses} py-0 ps-0 cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 hover:file:bg-gray-100`}
+									onChange={(e) =>
+										setProperty((previousState) => {
+											return {
+												...previousState,
+												image: e.target.files[0],
+											};
+										})
+									}
+								/>
+							</div>
+							{/* ====== Image End ====== */}
 
-			{/* Amenities 
-			<div>
-				<div>
-					<label htmlFor="amenities">Amenities</label>
-				</div>
-				<input
-					type="text"
-					id="amenities"
-					name="amenities"
-					className={input_style_classes}
-					value={property.amenities}
-                    onChange={(e) =>
-						setProperty((previousState) => {
-							return { ...previousState, amenities: e.target.value };
-						})
-					}
-				/>
-			</div>
-			*/}
+							{/* ====== Amenities Start ====== */}
+							{/* ====== Amenities End ====== */}
 
-			<button
-				type="submit"
-				className="bg-blue-400 rounded-md py-1 px-2 mt-4"
-			>
-				Submit
-			</button>
-		</form>
+							{/* ====== Description Start ====== */}
+							<div className="mb-6">
+								<label
+									className="block text-gray-800 font-bold mb-2"
+									htmlFor="description"
+								>
+									Description
+								</label>
+								<textarea
+									className={`${inputStyleClasses} min-h-4`}
+									id="description"
+									type="text"
+									value={property.description}
+									placeholder="Description about property"
+									onChange={(e) =>
+										setProperty((prevState) => ({
+											...prevState,
+											description: e.target.value,
+										}))
+									}
+								></textarea>
+							</div>
+							{/* ====== Description End ====== */}
+
+							<button
+								className="py-2 px-4 w-full bg-indigo-500 hover:bg-indigo-700 text-white font-bold rounded focus:outline-none focus:shadow-outline"
+								type="submit"
+							>
+								Submit
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	);
 };
 
