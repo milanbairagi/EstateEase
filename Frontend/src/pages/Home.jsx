@@ -34,22 +34,22 @@ const Home = () => {
 	};
 
 	return (
-		<>
+		<div className="container mx-auto">
 			<Hero />
-			<h2>Featured Properties</h2>
-			<div className="flex gap-x-4">
+			<h2 className="text-3xl font-bold text-gray-900 my-2">Featured Properties</h2>
+			<div className="flex gap-x-4 mb-7">
 				{featuredProperties.map((property) => (
 					<PropertyCard property={property} key={property.id} />
 				))}
 			</div>
 
-			<h2>Latest Properties:</h2>
+			<h2 className="text-3xl font-bold text-gray-900 mt-4 my-2">Latest Properties:</h2>
 			<div className="flex gap-x-4">
 				{properties.map((property) => (
 					<PropertyCard property={property} key={property.id} />
 				))}
 			</div>
-		</>
+		</div>
 	);
 };
 
