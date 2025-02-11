@@ -28,7 +28,21 @@ class UserSerializer(serializers.ModelSerializer):
             user.save()
         return user
 
+
+class AmenitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amenity
+        fields = ["id", "name", "description", "icon",]
+
+
+class PropertyListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Property
+        fields = ["title", "image", "description", "property_type", "price", "bedroom", "bathroom", "is_featured", "area_sqft",]
+
+
 class PropertySerializer(serializers.ModelSerializer):
+    amenities = AmenitySerializer(many=True)
     class Meta:
         model = Property
         fields = "__all__"
@@ -37,6 +51,7 @@ class PropertySerializer(serializers.ModelSerializer):
                 "read_only": True
             },
         }
+        depth = 1
 
     def update(self, instance, validated_data):
         instance.updated_at = timezone.now()
@@ -48,3 +63,4 @@ class InquirySerializer(serializers.ModelSerializer):
         model = Inquiry
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at", "status"]
+

@@ -2,16 +2,21 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
-from .models import User, Property, Inquiry
-from .serializers import UserSerializer, PropertySerializer, InquirySerializer
+from .models import User, Property, Inquiry, Amenity
+from .serializers import UserSerializer, PropertySerializer, PropertyListSerializer, InquirySerializer, AmenitySerializer
 from .permissions import IsOwnerOrReadOnly
 from .filters import PropertyFilter
 
 class PropertyListCreate(generics.ListCreateAPIView):
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    # serializer_class = PropertySerializer
     permission_classes = [AllowAny]
     filterset_class = PropertyFilter
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return PropertySerializer
+        return PropertyListSerializer
 
     def create(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
@@ -79,3 +84,9 @@ class UserInquiryList(generics.ListAPIView):
         inquiries = Inquiry.objects.filter(property__owner=user)
 
         return inquiries
+
+
+class AmenityList(generics.ListAPIView):
+    queryset = Amenity.objects.all()
+    serializer_class = AmenitySerializer
+    permission_classes = [AllowAny]
