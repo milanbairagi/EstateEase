@@ -40,9 +40,8 @@ const PropertyDetail = () => {
 			) : (
 				<div className="bg-gray-100">
 					<div className="container mx-auto px-4 py-8">
-						<div className="flex flex-wrap -mx-4">
-							<div className="w-full md:w-2/3 mb-8">
-
+						<div className="grid grid-cols-1 lg:grid-cols-4 gap-2 lg:gap-3">
+							<div className="lg:col-span-3 mb-8">
 								{/* First Section */}
 								<div className="bg-white px-5 mb-3">
 									<div className="flex flex-wrap justify-between mb-4 pt-3">
@@ -73,7 +72,7 @@ const PropertyDetail = () => {
 									<img
 										src={property.image}
 										alt="Property"
-										className="w-full h-auto rounded-lg shadow-md mb-4"
+										className="w-full md:max-h-[70vh] md:w-auto mx-auto rounded-lg shadow-md mb-4"
 										id="mainImage"
 									/>
 
@@ -86,10 +85,10 @@ const PropertyDetail = () => {
 										/>
 
 										{property.additional_images.map(
-											(image, index) => (
+											(img_data) => (
 												<img
-													key={index}
-													src={image}
+													key={img_data.id}
+													src={img_data.image}
 													alt="Thumbnail"
 													className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
 												/>
@@ -98,9 +97,13 @@ const PropertyDetail = () => {
 									</div>
 								</div>
 
-								<div className="text-gray-700 mb-6 px-5 bg-white">
-									<h3 className="text-2xl font-semibold mb-2 border-b-2">Description</h3>
-									<p className="text-sm text-slate-400">{property.description}</p>
+								<div className="block text-gray-700 mb-6 px-5 bg-white">
+									<h3 className="text-2xl font-semibold mb-2 border-b-2">
+										Description
+									</h3>
+									<p className="text-sm text-slate-200">
+										{property.description}
+									</p>
 								</div>
 
 								{/* Icons boxes */}
@@ -133,7 +136,7 @@ const PropertyDetail = () => {
 								</div>
 
 								<div className="bg-white w-full my-5 px-5">
-									<h3 className="text-2xl font-medium px-4 pt-2 pb-5 border-b-2">
+									<h3 className="text-2xl font-medium pt-2 pb-5 border-b-2">
 										Overview
 									</h3>
 									<div className="grid md:grid-cols-2">
@@ -144,22 +147,28 @@ const PropertyDetail = () => {
 									</div>
 								</div>
 
-								<div>
-									<h3 className="text-lg font-semibold mb-2">
+								<div className="bg-white my-5 px-5 py-5">
+									<h3 className="text-2xl font-medium mb-3">
 										Amenities:
 									</h3>
-									<ul className="list-disc list-inside text-gray-700">
-										<li>
-											Industry-leading noise cancellation
-										</li>
-										<li>30-hour battery life</li>
-										<li>Touch sensor controls</li>
-										<li>Speak-to-chat technology</li>
-									</ul>
+
+									<div className="grid gap-3 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+										{property.amenities.map((amenity) => (
+											<div
+												className="bg-slate-200 flex items-center justify-start gap-1 md:gap-2 border-2 px-3 py-2 rounded text-sm lg:text-lg"
+												key={amenity.id}
+											>
+												<img src={amenity?.icon} alt="amenity-icon"
+													className="max-w-9"
+												/>
+												<p className="ml-2">{amenity.name}</p>
+											</div>
+										))}
+									</div>
 								</div>
 							</div>
 
-							<div className="w-full md:w-1/3 px-4">
+							<div className="">
 								<InquiryForm propertyId={property.id} />
 							</div>
 						</div>
