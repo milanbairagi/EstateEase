@@ -22,7 +22,7 @@ const InquiryForm = ({ propertyId }) => {
 	};
 
 	return (
-		<div className="bg-white p-6 mx-2">
+		<div className="bg-white p-6">
 			<h1 className="text-3xl font-bold mb-6">Inquiry</h1>
 			<form onSubmit={(e) => handleSubmit(e)}>
 				<div className="mb-6">

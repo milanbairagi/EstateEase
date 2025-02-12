@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from .models import User, Property, Inquiry, Amenity
-from .serializers import UserSerializer, PropertySerializer, PropertyListSerializer, InquirySerializer, AmenitySerializer
+from .serializers import UserSerializer, PropertySerializer, PropertyDetailSerializer, PropertyListSerializer, InquirySerializer, AmenitySerializer
 from .permissions import IsOwnerOrReadOnly
 from .filters import PropertyFilter
 
@@ -32,7 +32,7 @@ class PropertyListCreate(generics.ListCreateAPIView):
 
 class PropertyRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
-    serializer_class = PropertySerializer
+    serializer_class = PropertyDetailSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
 class UserCreate(generics.CreateAPIView):

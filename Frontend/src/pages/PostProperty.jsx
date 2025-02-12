@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 
 const inputStyleClasses =
@@ -48,8 +48,34 @@ const PropertyForm = () => {
 		bathroom: "",
 		area_sqft: "",
 		image: null,
+		amenities: [],
 		is_active: true,
 	});
+
+	const [availableAmenities, setAvailableAmenities] = useState([]);
+
+	useEffect(() => {
+		getAmenities();
+	}, []);
+
+	const getAmenities = () => {
+		api.get("api/amenities/").then((res) =>
+			setAvailableAmenities(res.data)
+		);
+	};
+
+	// Handle selecting/deselecting amenities
+	const handleAmenityClick = (amenityId) => {
+		setProperty((prev) => {
+			const isSelected = prev.amenities.includes(amenityId);
+			return {
+				...prev,
+				amenities: isSelected
+					? prev.amenities.filter((item) => item !== amenityId)
+					: [...prev.amenities, amenityId],
+			};
+		});
+	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -58,15 +84,24 @@ const PropertyForm = () => {
 		const formData = new FormData();
 
 		for (const key in property) {
-			if (property[key] !== null) {
-				formData.append(`${key}`, property[key]);
-				console.log(`${key}`, property[key]);
+			const value = property[key];
+			if (value === null || Array.isArray(value) && value.length === 0) continue;
+
+			if (Array.isArray(value)) {
+				value.forEach((array_element) => {
+					formData.append(`${key}`, array_element)
+				})
+				continue;
 			}
+			formData.append(`${key}`, value);
 		}
 
+		formData.forEach((value, key) => {
+			console.log(`${key}:`, value);
+		});
 		// Post new properties
 		const res = await api.post("api/properties/", formData);
-		console.log(res.data);
+		console.log(res);
 	};
 
 	return (
@@ -81,7 +116,10 @@ const PropertyForm = () => {
 							Please fill out the form below to post your
 							property.
 						</p>
-						<form className="mt-6" onSubmit={(e) => handleSubmit(e)}>
+						<form
+							className="mt-6"
+							onSubmit={(e) => handleSubmit(e)}
+						>
 							{/* ====== Title Start ====== */}
 							<InputBlock
 								id="title"
@@ -282,6 +320,33 @@ const PropertyForm = () => {
 							{/* ====== Image End ====== */}
 
 							{/* ====== Amenities Start ====== */}
+							<div className="mb-6">
+								<label className="block text-gray-800 font-bold mb-2">
+									Select Amenities
+								</label>
+								<div className="grid gap-3 grid-cols-2 lg:grid-cols-3 xxl:grid-cols-4">
+									{availableAmenities.map((amenity) => {
+										const isSelected = property.amenities.includes(amenity.id);
+										return (
+											<div
+												className={`flex items-center justify-start gap-1 md:gap-2 border-2 px-3 py-2 rounded text-sm cursor-pointer
+															${isSelected ? "bg-slate-300 border-slate-800" : "bg-gray-200 text-gray-700"}`}
+												key={amenity.id}
+												onClick={() => handleAmenityClick(amenity.id)}
+											>
+												<img
+													src={amenity?.icon}
+													alt="amenity-icon"
+													className="max-w-9"
+												/>
+												<p className="ml-2">
+													{amenity.name}
+												</p>
+											</div>
+										);
+									})}
+								</div>
+							</div>
 							{/* ====== Amenities End ====== */}
 
 							{/* ====== Description Start ====== */}
