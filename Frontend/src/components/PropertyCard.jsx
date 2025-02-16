@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBath, faBed, faRulerCombined } from "@fortawesome/free-solid-svg-icons";
+
 
 const PropertyCard = ({ property }) => {
 	return (
@@ -18,15 +21,12 @@ const PropertyCard = ({ property }) => {
 							{property.description}
 						</p>
 					</div>
-					<div className="px-6 py-4">
+					<div className="flex px-6 py-4">
 						<span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-							#photography
-						</span>
-						<span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-							#travel
+							<FontAwesomeIcon icon={faBed} /> {property.bedroom} Bedroom
 						</span>
 						<span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
-							#winter
+							<FontAwesomeIcon icon={faRulerCombined} /> {property.area_sqft} Sq. Ft.
 						</span>
 					</div>
 				</div>

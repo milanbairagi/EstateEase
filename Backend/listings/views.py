@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
-from .models import User, Property, Inquiry, Amenity
+from .models import User, Property, Inquiry, Amenity, PropertyImage
 from .serializers import UserSerializer, PropertySerializer, PropertyDetailSerializer, PropertyListSerializer, InquirySerializer, AmenitySerializer
 from .permissions import IsOwnerOrReadOnly
 from .filters import PropertyFilter
@@ -19,13 +19,25 @@ class PropertyListCreate(generics.ListCreateAPIView):
         return PropertyListSerializer
 
     def create(self, request, *args, **kwargs):
-        if not self.request.user.is_authenticated:
+        if not request.user.is_authenticated:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+        # accept only first five additional images
+        additional_images = request.FILES.getlist("additional_images")[:5]
+
+        # create the property instance using serializer
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        if serializer.is_valid():
-            serializer.save(owner=self.request.user)
+        property_instance = serializer.save(owner=self.request.user)
+
+        # Create additional Images instances
+        image_instances = [
+            PropertyImage.objects.create(property=property_instance, image=image)
+            for image in additional_images
+        ]
+
+        property_instance.additional_images.set(image_instances)
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
