@@ -56,8 +56,7 @@ const PropertyDetail = () => {
 													className="me-3"
 												/>
 												{property.location} {" | "}
-												{property.city} {" | "}
-												{property.district}
+												{property.city}
 											</p>
 										</div>
 
@@ -72,7 +71,7 @@ const PropertyDetail = () => {
 									<img
 										src={property.image}
 										alt="Property"
-										className="w-full md:max-h-[70vh] md:w-auto mx-auto rounded-lg shadow-md mb-4"
+										className="w-full md:h-[70vh] object-cover md:w-auto mx-auto rounded-lg shadow-md mb-4"
 										id="mainImage"
 									/>
 
@@ -158,10 +157,14 @@ const PropertyDetail = () => {
 												className="bg-slate-200 flex items-center justify-start gap-1 md:gap-2 border-2 px-3 py-2 rounded text-sm lg:text-lg"
 												key={amenity.id}
 											>
-												<img src={amenity?.icon} alt="amenity-icon"
+												<img
+													src={amenity?.icon}
+													alt="amenity-icon"
 													className="max-w-9"
 												/>
-												<p className="ml-2">{amenity.name}</p>
+												<p className="ml-2">
+													{amenity.name}
+												</p>
 											</div>
 										))}
 									</div>
