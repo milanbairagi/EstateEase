@@ -18,26 +18,7 @@ const Profile = (props) => {
 		<div className="h-full my-auto flex justify-center items-center">
 			<div className="border-2 rounded-lg w-full md:w-96 p-4">
 				<h3 className="text-2xl font-medium">Profile Detail</h3>
-				<div className="mt-8">
-					<label 
-						className={style.label}
-						htmlFor="username"
-					>
-						Username
-					</label>
-					<input
-						id="username"
-						className={style.input}
-						type="text"
-						value={user.username || ""}
-						onChange={(e) =>
-							setUser((prevUser) => ({
-								...prevUser,
-								username: e.target.value,
-							}))
-						}
-					/>
-				</div>
+				
 				<div className="mt-6">
 					<label 
 						className={style.label}
@@ -58,6 +39,7 @@ const Profile = (props) => {
 						}
 					/>
 				</div>
+				
 				<div className="mt-6">
 					<label className={style.label} htmlFor="phn-number">
 						Number
