@@ -44,7 +44,7 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 class PropertyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ["id", "title", "image", "description", "property_type", "price", "bedroom", "bathroom", 
+        fields = ["id", "title", "image", "property_type", "price", "location", "city", "bedroom", "bathroom", 
                     "is_featured", "area_sqft", "additional_images"
                 ]
 

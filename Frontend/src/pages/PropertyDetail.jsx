@@ -100,7 +100,7 @@ const PropertyDetail = () => {
 									<h3 className="text-2xl font-semibold mb-2 border-b-2">
 										Description
 									</h3>
-									<p className="text-sm text-slate-200">
+									<p className="text-sm text-gray-700">
 										{property.description}
 									</p>
 								</div>
