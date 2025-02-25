@@ -28,26 +28,55 @@ EstateEase is a real estate platform designed to help property owners sell and r
 - Node.js & npm
 - Python & pip
 
-### Backend Setup
+### Clone the Repository
+```bash
+git clone https://github.com/yourusername/estateease.git
+cd estateease
+```
+
+## Backend Setup
+### Create a Virtual Environment & Install Dependencies
 ```sh
-# Clone the repository
-git clone https://github.com/NoName3755/EstateEase.git
-cd estateease/backend
-
-# Create a virtual environment and install dependencies
+cd backend  # Change directory to estate/backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+venv\Scripts\activate  # On Mac: source venv/bin/activate
 pip install -r requirements.txt
+```
 
-# Apply migrations and start the server
+### Backend Environment (`backend/.env`)
+Create a `.env` file inside the `backend/` directory:
+```ini
+DJANGO_SECRET_KEY=your-secret-key-here
+DEBUG=True
+ALLOWED_HOSTS=localhost,127.0.0.1
+CORS_ALLOWED_ORIGINS=http://localhost:5173
+```
+Replace `your-secret-key-here` with a secure random key. Generate one using:
+```sh
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+### Apply Migrations & Run Server
+```sh
 python manage.py migrate
 python manage.py runserver
 ```
 
-### Frontend Setup
+## Frontend Setup
+### Install Dependencies for Frontend
 ```sh
-cd estateease/frontend
+cd ../frontend  # Change directory to estate/frontend
 npm install
+```
+
+### Frontend Environment (`frontend/.env`)
+Create a `.env` file inside the `frontend/` directory:
+```ini
+VITE_API_URL="http://127.0.0.1:8000"  # (Backend Server Url) for local development
+```
+
+### Run Frontend Server
+```sh
 npm run dev
 ```
 
