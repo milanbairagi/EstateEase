@@ -6,7 +6,7 @@ import { useUser } from "../context/userContext";
 import { Link } from "react-router-dom";
 
 function Login() {
-	const [username, setUsername] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
 	const { setUser } = useUser();
@@ -21,7 +21,7 @@ function Login() {
 
 		try {
 			const response = await api.post("/api/token/", {
-				username,
+				email,
 				password,
 			});
 
@@ -64,20 +64,20 @@ function Login() {
 					<form>
 						<div>
 							<label
-								htmlFor="username"
+								htmlFor="email-field"
 								className="block text-sm font-medium leading-5  text-gray-700"
 							>
-								Username
+								Email
 							</label>
 							<div className="mt-1 relative rounded-md shadow-sm">
 								<input
-									id="username"
-									name="username"
-									placeholder="username"
-									type="text"
+									id="email-field"
+									name="email"
+									placeholder="email"
+									type="email"
 									required=""
-									value={username}
-									onChange={(e) => setUsername(e.target.value)}
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
 									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
 								/>
 								<div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">

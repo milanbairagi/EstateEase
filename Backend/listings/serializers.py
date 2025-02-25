@@ -6,7 +6,7 @@ from django.utils import timezone
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "username","first_name", "last_name", "email", "phone_number", "password"]
+        fields = ["id", "email","first_name", "last_name", "phone_number", "password", "profile_image"]
         extra_kwargs = {
             "password": {"write_only": True},
             "id": {"read_only": True},
@@ -44,7 +44,7 @@ class PropertyImageSerializer(serializers.ModelSerializer):
 class PropertyListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
-        fields = ["id", "title", "image", "description", "property_type", "price", "bedroom", "bathroom", 
+        fields = ["id", "title", "image", "property_type", "price", "location", "city", "bedroom", "bathroom", 
                     "is_featured", "area_sqft", "additional_images"
                 ]
 
