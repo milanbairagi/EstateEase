@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import PostProperty from "./pages/PostProperty";
 import PropertyDetail from "./pages/PropertyDetail";
 import Dashboard from "./pages/Dashboard";
+import Properties from "./pages/Properties";
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="/register" element={<Register />} />
+				<Route path="/properties" element={<Properties />} />
 				<Route path="/post-property" element={<PostProperty />} />
 				<Route path="/property/:id" element={<PropertyDetail />} />
 				<Route path="/dashboard" element={<Dashboard />} />
