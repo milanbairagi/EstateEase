@@ -54,7 +54,7 @@ const NavBar = () => {
 					Home
 				</Link>
 				<Link
-					to="#"
+					to="properties"
 					className="font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out"
 				>
 					Properties
@@ -148,7 +148,7 @@ const NavBar = () => {
 						Home
 					</Link>
 					<Link
-						to="#"
+						to="/properties"
 						className="py-3 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out"
 					>
 						Properties
