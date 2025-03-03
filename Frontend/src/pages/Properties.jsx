@@ -1,9 +1,13 @@
 import { useEffect, useCallback, useState } from "react";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilterCircleXmark } from "@fortawesome/free-solid-svg-icons";
+
 import PropertyCard from "../components/PropertyCard";
 import api from "../api";
 import districts from "../data/districts";
 import districtCities from "../data/districtCities";
+import { useSearchParams } from "react-router-dom";
 
 const Properties = () => {
 	const initialFilters = {
@@ -24,6 +28,8 @@ const Properties = () => {
 	const [properties, setProperties] = useState([]);
 	const [availableAmenities, setAvailableAmenities] = useState([]);
 	const [filters, setFilters] = useState(initialFilters);
+
+	const [searchParams] = useSearchParams();
 
 	const resetFilters = () => setFilters(initialFilters);
 
@@ -75,7 +81,11 @@ const Properties = () => {
 
 	useEffect(() => {
 		getAmenities();
-	}, []);
+		setFilters((prev) => ({
+			...prev,
+			...Object.fromEntries(searchParams.entries()),
+		}))
+	}, [])
 
 	useEffect(() => {
 		fetchProperties();
@@ -114,10 +124,15 @@ const Properties = () => {
 						isFiltersOpen ? "block" : "hidden"
 					} md:block`}
 				>
-					<div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-						<h2 className="text-lg font-semibold mb-4 text-gray-900">
-							Filters
-						</h2>
+					<div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+						<div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+							<h2 className="text-lg xl:text-xl font-semibold text-gray-900">
+								Filters
+							</h2>
+							<button className="px-3 py-2 rounded-md text-sm text-gray-900 bg-gray-100 hover:bg-gray-200 transition-colors" onClick={resetFilters}>
+								<FontAwesomeIcon icon={faFilterCircleXmark} size="lg" />
+							</button>
+						</div>
 
 						{/* Property Type */}
 						<div className="space-y-3 mb-6">
@@ -183,8 +198,8 @@ const Properties = () => {
 							<h3 className="text-sm font-medium text-gray-700">
 								Rooms
 							</h3>
-							<div className="grid grid-cols-2 gap-3">
-								<div>
+							<div className="grid grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-3">
+								<div className="flex flex-col justify-between">
 									<label className="text-sm text-gray-600">
 										Bedrooms (Min)
 									</label>
@@ -211,7 +226,7 @@ const Properties = () => {
 										<option value="10">10</option>
 									</select>
 								</div>
-								<div>
+								<div className="flex flex-col justify-between">
 									<label className="text-sm text-gray-600">
 										Bathrooms (Min)
 									</label>
@@ -246,7 +261,7 @@ const Properties = () => {
 							<h3 className="text-sm font-medium text-gray-700">
 								Price Range
 							</h3>
-							<div className="flex gap-3">
+							<div className="grid md:grid-cols-1 lg:grid-cols-2 gap-3">
 								<input
 									type="number"
 									placeholder="Min"
@@ -405,7 +420,7 @@ const Properties = () => {
 					</div>
 
 					{/* Property List */}
-					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
 						{/* Replace with your property card component */}
 						{properties.map((property) => (
 							<PropertyCard

@@ -60,13 +60,13 @@ const NavBar = () => {
 					Properties
 				</Link>
 				<Link
-					href="/blog"
+					href="#"
 					className="font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out"
 				>
 					Blog
 				</Link>
 				<Link
-					to="#"
+					to="/about"
 					className="font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out"
 				>
 					About
@@ -160,7 +160,7 @@ const NavBar = () => {
 						Blog
 					</Link>
 					<Link
-						to="#"
+						to="/about"
 						className="py-3 font-medium text-gray-500 hover:text-gray-900 transition duration-150 ease-in-out"
 					>
 						About
