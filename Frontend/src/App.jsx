@@ -10,23 +10,39 @@ import PostProperty from "./pages/PostProperty";
 import PropertyDetail from "./pages/PropertyDetail";
 import Dashboard from "./pages/Dashboard";
 import Properties from "./pages/Properties";
+import About from "./pages/About";
+import Footer from "./components/Footer";
 
 function App() {
-
 	return (
 		<>
-		<UserContextProvider>
-			<NavBar />
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route path="/login" element={<Login />} />
-				<Route path="/register" element={<Register />} />
-				<Route path="/properties" element={<Properties />} />
-				<Route path="/post-property" element={<PostProperty />} />
-				<Route path="/property/:id" element={<PropertyDetail />} />
-				<Route path="/dashboard" element={<Dashboard />} />
-			</Routes>
-		</UserContextProvider>
+			<UserContextProvider>
+				<NavBar />
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<>
+								<Home /> <Footer />
+							</>
+						}
+					/>
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/properties" element={<Properties />} />
+					<Route path="/post-property" element={<PostProperty />} />
+					<Route path="/property/:id" element={<PropertyDetail />} />
+					<Route
+						path="/about"
+						element={
+							<>
+								<About /> <Footer />
+							</>
+						}
+					/>
+					<Route path="/dashboard" element={<Dashboard />} />
+				</Routes>
+			</UserContextProvider>
 		</>
 	);
 }
