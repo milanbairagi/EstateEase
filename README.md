@@ -30,7 +30,7 @@ EstateEase is a real estate platform designed to help property owners sell and r
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/yourusername/estateease.git
+git clone https://github.com/milanbairagi/estateease.git
 cd estateease
 ```
 
