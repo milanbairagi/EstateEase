@@ -11,6 +11,7 @@ import {
 import InquiryForm from "../components/InquiryForm";
 
 import api from "../api";
+import { formatDate, convertToNepaliCurrencyWord } from "../utils";
 
 import Page404 from "./Page404";
 
@@ -62,7 +63,7 @@ const PropertyDetail = () => {
 
 										<div>
 											<span className="text-2xl font-semibold mr-2 text-blue-500">
-												Rs. {property.price}
+												Rs. {convertToNepaliCurrencyWord(property.price)}
 											</span>
 										</div>
 									</div>
@@ -106,7 +107,7 @@ const PropertyDetail = () => {
 								</div>
 
 								{/* Icons boxes */}
-								<div className="flex gap-2">
+								<div className="flex gap-2 px-5">
 									<div className="flex">
 										<div className="h-20 w-20 bg-gray-300 flex flex-col justify-center items-center rounded-md">
 											<FontAwesomeIcon
@@ -134,15 +135,73 @@ const PropertyDetail = () => {
 									</div>
 								</div>
 
-								<div className="bg-white w-full my-5 px-5">
+								<div className="bg-white w-full my-5 p-5">
 									<h3 className="text-2xl font-medium pt-2 pb-5 border-b-2">
 										Overview
 									</h3>
-									<div className="grid md:grid-cols-2">
-										<p>fa</p>
-										<p>fa</p>
-										<p>fa</p>
-										<p>fa</p>
+									<div className="grid md:grid-cols-2 gap-x-5 md:gap-x-10">
+										<div className="grid grid-cols-2">
+											<h4 className="text-md font-semibold">
+												Price:
+											</h4>
+											<h4 className="text-md">
+												{convertToNepaliCurrencyWord(property.price)}
+											</h4>
+										</div>
+										<div className="grid grid-cols-2">
+											<h4 className="text-md font-semibold">
+												Updated at:
+											</h4>
+											<h4 className="text-md">
+												{formatDate(
+													property.updated_at
+												)}
+											</h4>
+										</div>
+										<div className="grid grid-cols-2">
+											<h4 className="text-md font-semibold">
+												District:
+											</h4>
+											<h4 className="text-md">
+												{property.district}
+											</h4>
+										</div>
+										<div className="grid grid-cols-2">
+											<h4 className="text-md font-semibold">
+												City:
+											</h4>
+											<h4 className="text-md">
+												{property.city}
+											</h4>
+										</div>
+										<div className="grid grid-cols-2">
+											<h4 className="text-md font-semibold">
+												Location:
+											</h4>
+											<h4 className="text-md">
+												{property.location}
+											</h4>
+										</div>
+										<div className="grid grid-cols-2">
+											<h4 className="text-md font-semibold">
+												Area:
+											</h4>
+											<h4 className="text-md">
+												{property.area_sqft} sqft
+											</h4>
+										</div>
+										{(property.longitude && property.latitude) && 
+											<>
+												<div className="grid grid-cols-2">
+													<h4 className="text-md font-semibold">Longitude:</h4>
+													<h4 className="text-md">{property.longitude}</h4>
+												</div>
+												<div className="grid grid-cols-2">
+													<h4 className="text-md font-semibold">Latitude:</h4>
+													<h4 className="text-md">{property.latitude}</h4>
+												</div>
+											</>
+										}
 									</div>
 								</div>
 
