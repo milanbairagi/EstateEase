@@ -21,7 +21,7 @@ const HomeSearchBar = () => {
 
 	const generateQueryString = () => {
 		searchQuery.set("property_type", propertyType);
-		searchQuery.set("district", district);
+		searchQuery.set("district__contains", district);
 		searchQuery.set("price__gt", maxPrice);
 		return searchQuery.toString();
 	}

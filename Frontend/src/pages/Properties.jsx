@@ -77,13 +77,20 @@ const Properties = () => {
 		} catch (error) {
 			console.error("Failed to fetch properties:", error);
 		}
-	}, [filters, generateQueryString]);
+	}, [filters]);
 
 	useEffect(() => {
 		getAmenities();
+
+		// fix property_type - suppose to be array (get string from searchparam)
+		const heroFilter = Object.fromEntries(searchParams.entries());
+		if (heroFilter.property_type) {
+			heroFilter.property_type = [heroFilter.property_type];
+		}
+		
 		setFilters((prev) => ({
 			...prev,
-			...Object.fromEntries(searchParams.entries()),
+			...heroFilter
 		}))
 	}, [])
 
@@ -296,7 +303,7 @@ const Properties = () => {
 							</h3>
 							<select
 								className="w-full px-3 py-2 border rounded-md"
-								defaultValue=""
+								value={filters.district__contains}
 								onChange={(e) =>
 									setFilters({
 										...filters,
