@@ -19,6 +19,8 @@ const PropertyDetail = () => {
 	const param = useParams();
 	const [property, setProperty] = useState({});
 
+	const [bigImage, setBigImage] = useState("");
+
 	useEffect(() => {
 		getProperty();
 	}, []);
@@ -28,11 +30,18 @@ const PropertyDetail = () => {
 			const respond = await api.get(`api/property/${param.id}/`);
 			if (respond.status === 200) {
 				setProperty(respond.data);
+
+				// initially set big image to property main image
+				setBigImage(respond.data.image);
 			}
 		} catch (error) {
 			console.log(error);
 		}
 	};
+
+	const handleSwitchBigImage = (src) => {
+		setBigImage(src);
+	}
 
 	return (
 		<>
@@ -70,7 +79,8 @@ const PropertyDetail = () => {
 
 									{/* Main Property Image */}
 									<img
-										src={property.image}
+										// src={property.image}
+										src={bigImage}
 										alt="Property"
 										className="w-full md:h-[70vh] object-cover md:w-auto mx-auto rounded-lg shadow-md mb-4"
 										id="mainImage"
@@ -80,8 +90,10 @@ const PropertyDetail = () => {
 									<div className="flex gap-4 py-4 w-full justify-center overflow-x-auto">
 										<img
 											src={property.image}
-											alt="Thumbnail 1"
-											className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-100 hover:opacity-60 transition duration-300"
+											alt="Main Thumbnail"
+											onClick={() => handleSwitchBigImage(property.image)}
+											className={`size-16 sm:size-20 object-cover rounded-md cursor-pointer hover:opacity-100 transition duration-300
+														${(property.image == bigImage) ? "opacity-100" : "opacity-60"}`}
 										/>
 
 										{property.additional_images.map(
@@ -90,7 +102,9 @@ const PropertyDetail = () => {
 													key={img_data.id}
 													src={img_data.image}
 													alt="Thumbnail"
-													className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
+													onClick={() => handleSwitchBigImage(img_data.image)}
+													className={`size-16 sm:size-20 object-cover rounded-md cursor-pointer hover:opacity-100 transition duration-300
+																${(img_data.image == bigImage) ? "opacity-100" : "opacity-60"}`}
 												/>
 											)
 										)}
@@ -136,7 +150,7 @@ const PropertyDetail = () => {
 								</div>
 
 								<div className="bg-white w-full my-5 p-5">
-									<h3 className="text-2xl font-medium pt-2 pb-5 border-b-2">
+									<h3 className="text-2xl font-medium py-2 mb-2 border-b-2">
 										Overview
 									</h3>
 									<div className="grid md:grid-cols-2 gap-x-5 md:gap-x-10">
