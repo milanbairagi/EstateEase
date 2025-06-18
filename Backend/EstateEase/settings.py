@@ -160,6 +160,8 @@ STATIC_ROOT = BASE_DIR.joinpath("staticfiles")
 MEDIA_ROOT = BASE_DIR.joinpath("media")
 MEDIA_URL = "/media/"
 
+WHITENOISE_ALLOW_ALL_ORIGINS = True
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
