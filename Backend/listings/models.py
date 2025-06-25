@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 
+# from cloudinary_storage.storage import MediaCloudinaryStorage
+
+# DEFAULT_FILE_STORAGE = MediaCloudinaryStorage
+
 class User(AbstractUser):
     profile_image = models.ImageField(upload_to="Profile Images", null=True, blank=True)
     phone_number = models.CharField(max_length=15, unique=True, null=True)
@@ -17,7 +21,13 @@ class User(AbstractUser):
 class Amenity(models.Model):
     name = models.CharField(max_length=100, unique=True, help_text="Name of the amenity (e.g., Parking, Swimming Pool)")
     description = models.TextField(null=True, blank=True, help_text="Optional description of the amenity")
-    icon = models.ImageField(upload_to='amenity_icons/', null=True, blank=True, help_text="Optional icon/image for the amenity")
+    icon = models.ImageField(
+            upload_to='amenity_icons/',
+            null=True, 
+            blank=True, 
+            help_text="Optional icon/image for the amenity"
+            # storage=DEFAULT_FILE_STORAGE,
+        )
 
     def __str__(self):
         return self.name
