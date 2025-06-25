@@ -130,7 +130,7 @@ DATABASES = {
 }
 
 # use local SQLite db when PRODUCTION is false
-if not config("PRODUCTION"):
+if config("PRODUCTION", default=True, cast=bool):
     DATABASE_URL = config("DATABASE_URL")
     DATABASES["default"] = dj_database_url.parse(DATABASE_URL)
 
