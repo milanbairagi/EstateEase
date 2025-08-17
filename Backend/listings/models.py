@@ -7,7 +7,7 @@ from cloudinary_storage.storage import MediaCloudinaryStorage
 DEFAULT_FILE_STORAGE = MediaCloudinaryStorage
 
 class User(AbstractUser):
-    profile_image = models.ImageField(upload_to="Profile Images", null=True, blank=True)
+    profile_image = models.ImageField(upload_to="Profile Images", null=True, blank=True, storage=DEFAULT_FILE_STORAGE)
     phone_number = models.CharField(max_length=15, unique=True, null=True)
     email = models.EmailField(unique=True)
 
