@@ -90,6 +90,7 @@ SIMPLE_JWT = {
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',    
@@ -177,6 +178,8 @@ STATIC_ROOT = BASE_DIR.joinpath("staticfiles")
 
 # MEDIA_ROOT = BASE_DIR.joinpath("media")
 MEDIA_URL = "/media/"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 
 # Default primary key field type
