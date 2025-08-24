@@ -4,7 +4,7 @@ import HomeSearchBar from "../HomeSearchBar";
 
 const Hero = () => {
 	return (
-		<section className="bg-white md:px-0 min-h-[calc(100dvh-3rem)] grid place-items-center">
+		<section className="bg-white md:px-0  grid place-items-center" style={{ height: "clamp(500px, 90vh, 900px)" }}>
 			<div className="container items-center max-w-6xl px-5 mx-auto xl:px-5 pb-28">
 				<div className="flex flex-wrap justify-center items-center sm:-mx-3">
 					<div className="w-full md:w-1/2 md:px-3">

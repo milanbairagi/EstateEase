@@ -23,7 +23,7 @@ const FeaturedPropertiesSection = () => {
 
 	return (
 		<section className="container mx-auto py-20 xl:px-20">
-			<h2 className="my-5 text-4xl font-bold mb-10 px-5">
+			<h2 className="my-5 text-3xl md:text-4xl text-center md:text-left font-bold mb-10 px-3 md:px-5">
 				Featured Properties
 			</h2>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-6 lg:gap-10 mx-10 md:mx-5 lg:mx-0">
