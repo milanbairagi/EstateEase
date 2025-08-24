@@ -1,30 +1,36 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import api from "../api";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
+import FormFieldError from "../components/FormFieldError";
 import { useUser } from "../context/userContext";
-import { Link } from "react-router-dom";
+import Alert from "../components/Alert";
 
 function Login() {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+  const loginSchema = z.object({
+    email: z.string().min(1, "Email is required").email("Invalid email address"),
+    password: z.string().trim().min(1, "Password is required").min(5, "Password must be at least 5 characters long")
+  });
 
 	const { setUser } = useUser();
-
-	const [loading, setLoading] = useState(false);
-
 	const navigate = useNavigate();
 
-	const handleSubmit = async (e) => {
-		setLoading(true);
-		e.preventDefault();
+	const { register, handleSubmit, setError, clearErrors, formState: { errors, isSubmitting } } = useForm({
+    resolver: zodResolver(loginSchema)
+  });
 
-		try {
-			const response = await api.post("/api/token/", {
-				email,
-				password,
-			});
+  const inputFieldClass = "appearance-none block w-full px-3 py-2 border border-gray-400 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5";
 
+	const onLogin = async (data) => {
+
+		try { 
+			const response = await api.post("/api/token/", data);
+
+      // If the response is successful, store the tokens
 			if (response.status === 200) {
 				localStorage.setItem(ACCESS_TOKEN, response.data.access);
 				localStorage.setItem(REFRESH_TOKEN, response.data.refresh);
@@ -37,14 +43,36 @@ function Login() {
 				navigate("/");
 			}
 		} catch (error) {
-			alert(error);
-		} finally {
-			setLoading(false);
+      if (error.code && error.code === "ERR_NETWORK") {
+        setError("root.server", { message: "Network error, please try again later." });
+      }
+
+      // Handle error from api
+      if (error.response && error.response.data) {
+        const data = error.response.data;
+
+        if (data.detail) {
+          setError("root", { message: data.detail });
+        }
+
+        Object.entries(data).forEach(([field, messages]) => {
+          if (field === "email") {
+            setError("email", { message: messages[0] });
+          } else if (field === "password") {
+            setError("password", { message: messages[0] });
+          }
+        });
+      }
 		}
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
+		<div className="relative min-h-[calc(100vh-4rem)] bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8 px-6">
+      {/* Alert Message when there's an error */}
+	  {errors.root?.server?.message && (
+		  <Alert msg={errors.root.server.message} handleClose={() => {clearErrors("root.server")}} />
+	  )}
+
 			<div className="sm:mx-auto sm:w-full sm:max-w-md">
 				<h2 className="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
 					Welcome back!
@@ -59,9 +87,9 @@ function Login() {
 				</p>
 			</div>
 
-			<div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+			<div className="mt-2 sm:mx-auto sm:w-full sm:max-w-md">
 				<div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-					<form>
+					<form onSubmit={handleSubmit(onLogin)}>
 						<div>
 							<label
 								htmlFor="email-field"
@@ -75,24 +103,10 @@ function Login() {
 									name="email"
 									placeholder="email"
 									type="email"
-									required=""
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                  {...register("email")}
+									className={`${inputFieldClass} ${errors.email ? 'border-red-500 pr-10' : ''}`}
 								/>
-								<div className="hidden absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-									<svg
-										className="h-5 w-5 text-red-500"
-										fill="currentColor"
-										viewBox="0 0 20 20"
-									>
-										<path
-											fillRule="evenodd"
-											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-											clipRule="evenodd"
-										></path>
-									</svg>
-								</div>
+                {errors.email && <FormFieldError msg={errors.email.message} />}
 							</div>
 						</div>
 
@@ -108,12 +122,19 @@ function Login() {
 									id="password"
 									name="password"
 									type="password"
-									required=""
-									onChange={(e) => setPassword(e.target.value)}
-									className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                  placeholder="Enter your password"
+                  {...register("password")}
+									className={`${inputFieldClass} ${errors.password ? 'border-red-500 pr-10' : ''}`}
 								/>
+                {errors.password && <FormFieldError msg={errors.password.message} />}
 							</div>
 						</div>
+
+            {errors.root && errors.root.message && (
+              <div className="mt-2">
+                <FormFieldError msg={errors.root.message} />
+              </div>
+            )}
 
 						<div className="mt-6 flex items-center justify-between">
 							<div className="flex items-center">
@@ -146,10 +167,10 @@ function Login() {
 							<span className="block w-full rounded-md shadow-sm">
 								<button
 									type="submit"
-									onClick={handleSubmit}
-									className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
+                  disabled={isSubmitting}
+									className={`w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-500 hover:bg-blue-400 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
 								>
-									Sign in
+									{isSubmitting ? 'Signing in...' : 'Sign in'}
 								</button>
 							</span>
 						</div>
