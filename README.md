@@ -48,8 +48,13 @@ Create a `.env` file inside the `backend/` directory:
 ```ini
 DJANGO_SECRET_KEY=your-secret-key-here
 DEBUG=True
+PRODUCTION=False
 ALLOWED_HOSTS=localhost,127.0.0.1
 CORS_ALLOWED_ORIGINS=http://localhost:5173
+DATABASE_URL=your-database-url
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
 Replace `your-secret-key-here` with a secure random key. Generate one using:
 ```sh

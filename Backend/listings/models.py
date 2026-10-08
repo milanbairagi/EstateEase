@@ -2,8 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .managers import CustomUserManager
 
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
+DEFAULT_FILE_STORAGE = MediaCloudinaryStorage
+
 class User(AbstractUser):
-    profile_image = models.ImageField(upload_to="Profile Images", null=True, blank=True)
+    profile_image = models.ImageField(upload_to="Profile Images", null=True, blank=True, storage=DEFAULT_FILE_STORAGE)
     phone_number = models.CharField(max_length=15, unique=True, null=True)
     email = models.EmailField(unique=True)
 
@@ -17,7 +21,13 @@ class User(AbstractUser):
 class Amenity(models.Model):
     name = models.CharField(max_length=100, unique=True, help_text="Name of the amenity (e.g., Parking, Swimming Pool)")
     description = models.TextField(null=True, blank=True, help_text="Optional description of the amenity")
-    icon = models.ImageField(upload_to='amenity_icons/', null=True, blank=True, help_text="Optional icon/image for the amenity")
+    icon = models.ImageField(
+            upload_to='amenity_icons/',
+            null=True,
+            blank=True,
+            help_text="Optional icon/image for the amenity",
+            storage=DEFAULT_FILE_STORAGE,
+        )
 
     def __str__(self):
         return self.name
@@ -49,7 +59,7 @@ class Property(models.Model):
     is_featured = models.BooleanField(default=False)
 
     # Images
-    image = models.ImageField(upload_to="property_images/", null=True, blank=True)
+    image = models.ImageField(upload_to="property_images/", null=True, blank=True, storage=DEFAULT_FILE_STORAGE)
     additional_images = models.ManyToManyField("PropertyImage", blank=True, related_name="additional_properties")
 
     # status
@@ -67,7 +77,9 @@ class Property(models.Model):
 
 class PropertyImage(models.Model):
     property = models.ForeignKey("Property", on_delete=models.CASCADE, related_name="property_images")
-    image = models.ImageField(upload_to="property_images/")
+    image = models.ImageField(upload_to="property_images/", 
+                              storage=DEFAULT_FILE_STORAGE
+                              )
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
