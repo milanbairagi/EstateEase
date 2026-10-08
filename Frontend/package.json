@@ -15,12 +15,15 @@
     "@fortawesome/free-regular-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@hookform/resolvers": "^5.2.1",
     "axios": "^1.7.9",
     "i": "^0.3.7",
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.1"
+    "react-hook-form": "^7.62.0",
+    "react-router-dom": "^7.1.1",
+    "zod": "^4.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

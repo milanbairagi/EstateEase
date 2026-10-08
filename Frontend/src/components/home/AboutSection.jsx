@@ -20,8 +20,8 @@ const AboutSection = () => {
                     />
                 </div>
                 <div>
-                    <h4 className="text-4xl font-bold text-gray-900 my-7">Find Your Perfect Property with Ease</h4>
-                    <p className="text-gray-700 text-lg md:text-sm lg:text-lg font-medium tracking-tight">
+                    <h4 className="text-3xl md:text-4xl text-center md:text-left font-bold text-gray-900 my-7">Find Your Perfect Property with Ease</h4>
+                    <p className="text-gray-700 text-lg md:text-sm lg:text-lg font-medium tracking-tight text-justify">
                         At <span className="font-bold">EstateEase,</span>  we make buying, selling, and renting properties in Nepal simple and stress-free. Whether you're a homeowner looking to list your property or a buyer searching for the ideal home, our platform connects you with the right opportunities effortlessly. With a focus on transparency, reliability, and user-friendly experiences, we aim to be your trusted real estate partner.
                     </p>
                     <p className="text-gray-800 text-xl md:text-lg lg:text-xl font-semibold my-4 lg:my-7">
